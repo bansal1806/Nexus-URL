@@ -2,13 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link2, Zap, BarChart3, Shield, ArrowRight, Copy, Check, Globe } from 'lucide-react'
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+import { Link2, Zap, BarChart3, Shield, Copy, Check, Globe } from 'lucide-react'
 
 export default function Home() {
   const [url, setUrl] = useState('')
@@ -67,7 +61,10 @@ export default function Home() {
         </div>
         <div className="flex gap-8 items-center">
             <a href="/dashboard" className="text-sm font-medium text-zinc-400 hover:text-white transition-colors">Dashboard</a>
-            <button className="px-5 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-colors">
+            <button
+              onClick={() => document.getElementById('url-forge')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-5 py-2 rounded-full bg-white text-black text-sm font-semibold hover:bg-zinc-200 transition-colors"
+            >
               Get Started
             </button>
         </div>
@@ -98,7 +95,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="relative max-w-2xl mx-auto"
         >
-          <form onSubmit={handleShorten} className="p-2 rounded-2xl glass border border-white/10 flex flex-col gap-2">
+          <form id="url-forge" onSubmit={handleShorten} className="p-2 rounded-2xl glass border border-white/10 flex flex-col gap-2">
             <div className="flex flex-col md:flex-row gap-2">
               <div className="flex-1 relative group">
                 <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-500 group-focus-within:text-purple-500 transition-colors" />
