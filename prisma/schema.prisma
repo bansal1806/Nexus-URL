@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model ShortLink {
+  id          String   @id @default(cuid())
+  shortCode   String   @unique
+  originalUrl String
+  title       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  expiresAt   DateTime?
+  clicks      Int      @default(0)
+  
+  // Analytics
+  analytics   ClickAnalytics[]
+
+  @@index([shortCode])
+}
+
+model ClickAnalytics {
+  id          String   @id @default(cuid())
+  shortLinkId String
+  shortLink   ShortLink @relation(fields: [shortLinkId], references: [id], onDelete: Cascade)
+  
+  clickedAt   DateTime @default(now())
+  ip          String?
+  userAgent   String?
+  device      String?
+  browser     String?
+  os          String?
+  country     String?
+  region      String?
+  city        String?
+  referer     String?
+
+  @@index([shortLinkId])
+  @@index([clickedAt])
+}
